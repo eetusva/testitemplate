@@ -1,0 +1,198 @@
+:root {
+  --main-width: 840px;
+  --main-height: 566px;
+
+  --color-header-base: #4b533f; /* Muted dark green/brown for the main frame */
+  --color-header-base-border: #3e4535; /* Slightly darker shade for border */
+  --color-header-overlay: #686868; /* Desaturated grey for cracked concrete/debris (was snow) */
+  --color-title-plate-bg: #5a4a3a; /* Muted brown for title background (was bag) */
+  --color-title-plate-border: #403226; /* Darker border for plate */
+  --color-title-text: #dcdcdc; /* Off-white for title text */
+  --color-content-bg: #c8c8c8; /* Light grey for main content area */
+  --color-content-border: #4b533f; /* Same as header-base for consistency */
+  --color-debris-item: #525252;
+  --color-debris-item-border: #303030;
+
+  --font-title: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --font-special-elite: 'Special Elite', cursive; /* For a more distressed look if needed */
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1e1e1e; /* Dark background for contrast */
+  margin: 0;
+  font-family: sans-serif;
+  overflow: hidden; /* Prevent scrollbars from temporary large elements during dev */
+}
+
+.shop-ui-wrapper {
+  width: var(--main-width);
+  height: var(--main-height);
+  position: relative;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.shop-main-frame {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-header-base);
+  border-radius: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 4px solid var(--color-header-base-border);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.4); /* Inner shadow for depth */
+}
+
+.header-debris-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px; /* Height to accommodate the dips */
+  background-color: var(--color-header-overlay);
+  border-top-left-radius: 21px; /* Adjusted to fit inside main frame border */
+  border-top-right-radius: 21px;
+  z-index: 2;
+  /* Cracked texture using subtle gradient */
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0,0.08) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.08) 75%, rgba(0,0,0,0.08)),
+    linear-gradient(-45deg, rgba(0,0,0,0.08) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.08) 75%, rgba(0,0,0,0.08));
+  background-size: 18px 18px;
+  /* Broken/wavy bottom edge */
+  clip-path: polygon(
+    0% 0%,   100% 0%, /* Top edge */
+    100% 70%, /* Start of right downward curve */
+    95% 83%,
+    85% 72%, /* Valley */
+    75% 88%,
+    65% 70%, /* Valley */
+    50% 92%,  /* Deepest central dip */
+    35% 70%, /* Valley */
+    25% 88%,
+    15% 72%, /* Valley */
+    5% 83%,
+    0% 70%    /* End of left downward curve */
+  );
+}
+
+.title-plate {
+  position: absolute;
+  top: 20px; /* Positioned on the flatter part of the debris layer */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 65px;
+  background-color: var(--color-title-plate-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 3; /* Above debris layer */
+  border-radius: 8px;
+  border: 3px outset var(--color-title-plate-border);
+  /* Distressed wood/metal texture */
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 3px,
+    transparent 3px, transparent 8px
+  ), repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 5px,
+    transparent 5px, transparent 10px
+  );
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4), 3px 3px 6px rgba(0,0,0,0.5);
+}
+
+.shop-title {
+  font-family: var(--font-title);
+  font-size: 38px;
+  font-weight: 700; /* Roboto Condensed needs weight */
+  color: var(--color-title-text);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow:
+    1px 1px 0px #222222,
+    -1px -1px 0px #222222,
+    1px -1px 0px #222222,
+    -1px 1px 0px #222222,
+    2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.shop-content-window {
+  position: absolute;
+  top: 125px; /* Below the lowest point of the header's clip-path */
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: var(--color-content-bg);
+  border-radius: 15px;
+  z-index: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 3px solid var(--color-content-border);
+  /* Faint texture/dirt in content window background */
+  background-image:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+  background-size: 15px 15px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+}
+
+.placeholder-text {
+  text-align: center;
+  color: #333;
+  margin-top: 50px;
+  font-size: 1.2em;
+  font-family: var(--font-special-elite);
+}
+
+.debris-decoration {
+  position: absolute;
+  z-index: 3; /* Above debris layer */
+  background-color: var(--color-debris-item);
+  border: 1px solid var(--color-debris-item-border);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.debris-1 { /* Cracked wood plank */
+  top: 10px;
+  left: 8%;
+  width: 55px;
+  height: 22px;
+  transform: rotate(-12deg);
+  border-radius: 3px;
+  background-image: repeating-linear-gradient(
+    120deg,
+    var(--color-debris-item) 0px, var(--color-debris-item) 4px,
+    #4a4a4a 4px, #4a4a4a 7px /* Darker cracks */
+  );
+}
+
+.debris-2 { /* Piece of rubble/metal */
+  top: 12px;
+  right: 7%;
+  width: 28px;
+  height: 25px;
+  transform: rotate(18deg);
+  border-radius: 4px 8px 3px 10px / 5px 6px 9px 4px; /* Irregular shape */
+   background-image:
+    radial-gradient(circle at 30% 40%, #606060 20%, var(--color-debris-item) 60%),
+    linear-gradient(rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 50%); /* Slight gradient */
+}
+
+.fog-overlay {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 40%; /* Cover top part */
+  background: linear-gradient(to bottom, rgba(128,128,128,0.08) 0%, rgba(128,128,128,0.05) 50%, transparent 100%);
+  z-index: 4; /* Above most elements */
+  pointer-events: none;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
